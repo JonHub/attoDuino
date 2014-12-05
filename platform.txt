@@ -1,0 +1,160 @@
+
+# Arduino SAM Core and platform.
+#
+# For more info:
+# https://github.com/arduino/Arduino/wiki/Arduino-IDE-1.5---3rd-party-Hardware-specification
+
+#atto
+#name=Arduino ARM (32-bits) Boards
+name=AttoDuino (32-bits) Boards
+version=1.5.5
+
+# SAM3 compile variables
+# ----------------------
+
+compiler.path={runtime.ide.path}/hardware/tools/g++_arm_none_eabi/bin/
+compiler.c.cmd=arm-none-eabi-gcc
+compiler.c.flags=-c -g -Os -w -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -Dprintf=iprintf
+compiler.c.elf.cmd=arm-none-eabi-g++
+compiler.c.elf.flags=-Os -Wl,--gc-sections
+compiler.S.flags=-c -g -assembler-with-cpp
+compiler.cpp.cmd=arm-none-eabi-g++
+compiler.cpp.flags=-c -g -Os -w -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -Dprintf=iprintf
+compiler.ar.cmd=arm-none-eabi-ar
+compiler.ar.flags=rcs
+compiler.objcopy.cmd=arm-none-eabi-objcopy
+compiler.objcopy.eep.flags=-O ihex -j .eeprom --set-section-flags=.eeprom=alloc,load --no-change-warnings --change-section-lma .eeprom=0
+compiler.elf2hex.flags=-O binary
+compiler.elf2hex.cmd=arm-none-eabi-objcopy
+compiler.ldflags=
+compiler.size.cmd=arm-none-eabi-size
+compiler.define=-DARDUINO=
+# this can be overriden in boards.txt
+build.extra_flags=
+
+
+compiler.libsam.c.flags="-I{build.system.path}/libsam" "-I{build.system.path}/CMSIS/CMSIS/Include/" "-I{build.system.path}/CMSIS/Device/ATMEL/"
+
+# USB Flags
+# ---------
+build.usb_flags=-DUSB_VID={build.vid} -DUSB_PID={build.pid} -DUSBCON '-DUSB_MANUFACTURER={build.usb_manufacturer}' '-DUSB_PRODUCT={build.usb_product}'
+
+# Default usb manufacturer will be replaced at compile time using
+# numeric vendor ID if available or by board's specific value. 
+build.usb_manufacturer="Unknown"
+
+
+# SAM3 compile patterns
+# ---------------------
+
+#atto - note, c compiler is essentially identical to the compile CPP line
+## Compile c files
+#recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {build.extra_flags} {compiler.libsam.c.flags} {includes} "{source_file}" -o "{object_file}"
+
+## Compile c++ files
+#recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" {compiler.cpp.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {build.extra_flags} {compiler.libsam.c.flags} {includes} "{source_file}" -o "{object_file}"
+
+
+
+# cpp compile line line should produce:
+[/Applications/Energia.app/Contents/Resources/Java/hardware/tools/lm4f/bin/arm-none-eabi-g++, -c, -O0, -w, -fno-rtti, 
+-fno-exceptions, -ffunction-sections, -fdata-sections, -mthumb, -mcpu=cortex-m4, -mfloat-abi=hard, -mfpu=fpv4-sp-d16, -fsingle-precision-constant, 
+-DF_CPU=80000000L, -MMD, -DARDUINO=101, -DENERGIA=13, 
+-I/Applications/Energia.app/Contents/Resources/Java/hardware/lm4f/cores/lm4f, 
+-I/Applications/Energia.app/Contents/Resources/Java/hardware/lm4f/variants/stellarpad, 
+/var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build3641787042682345411.tmp/sketch_dec04a.cpp, 
+-o, /var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build3641787042682345411.tmp/sketch_dec04a.cpp.o
+
+# currently produces:
+/Applications/Arduino.app/Contents/Resources/Java/hardware/tools/g++_arm_none_eabi/bin/arm-none-eabi-g++ -c -O0 -w -fno-rtti 
+-fno-exceptions -ffunction-sections -fdata-sections -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant
+ -DF_CPU=80000000L -MMD -DARDUINO=155 -DENERGIA=13 
+-I/Applications/Arduino.app/Contents/Resources/Java/hardware/arduino/attoDuino/cores/lm4f 
+-I/Applications/Arduino.app/Contents/Resources/Java/hardware/arduino/attoDuino/variants/stellarpad 
+/var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build2151785671027917943.tmp/sketch_dec04a.cpp 
+-o /var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build2151785671027917943.tmp/sketch_dec04a.cpp.o
+
+
+#atto (c, essentially identical to cpp line)
+recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" -c -O0 -w -fno-rtti -fno-exceptions -ffunction-sections -fdata-sections -mthumb -mcpu={build.mcu} -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -DF_CPU={build.f_cpu} -MMD -DARDUINO={runtime.ide.version} -DENERGIA=13 {includes} "{source_file}" -o "{object_file}"
+
+#atto (cpp)
+recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" -c -O0 -w -fno-rtti -fno-exceptions -ffunction-sections -fdata-sections -mthumb -mcpu={build.mcu} -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -DF_CPU={build.f_cpu} -MMD -DARDUINO={runtime.ide.version} -DENERGIA=13 {includes} "{source_file}" -o "{object_file}"
+
+
+
+
+## Create archives
+recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} "{build.path}/{archive_file}" "{object_file}"
+
+#atto - currently here, build.variant_system_lib is no good …
+## Combine gc-sections, archives, and objects
+#atto - original line
+#recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" {compiler.c.elf.flags} -mcpu={build.mcu} "-T{build.variant.path}/{build.ldscript}" "-Wl,-Map,{build.path}/{build.project_name}.map" -o "{build.path}/{build.project_name}.elf" "-L{build.path}" -lm -lgcc -mthumb -Wl,--cref -Wl,--check-sections -Wl,--gc-sections -Wl,--entry=Reset_Handler -Wl,--unresolved-symbols=report-all -Wl,--warn-common -Wl,--warn-section-align -Wl,--warn-unresolved-symbols -Wl,--start-group "{build.path}/syscalls_sam3.c.o" {object_files} "{build.variant.path}/{build.variant_system_lib}" "{build.path}/{archive_file}" -Wl,--end-group
+
+
+##### in progress, this is the thing that runs the linker script ...
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" -O0 -nostartfiles -nostdlib -Wl --gc-sections "-T {build.variant.path}/{build.ldscript}" -Wl --entry=ResetISR -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -o "{build.path}/{build.project_name}.elf" {object_files} "{build.path}/{archive_file}" "-L{build.path}" -lm -lc -lgcc "-L{build.path}" -lm
+
+
+
+# apparently not needed for combine pattern
+#"{build.path}/syscalls_sam3.c.o"  "{build.variant.path}/{build.variant_system_lib}" 
+
+
+
+# should produce (from newer Energia)
+/Applications/Energia.app/Contents/Resources/Java/hardware/tools/lm4f/bin/arm-none-eabi-g++,
+ -O0, -nostartfiles, -nostdlib, -Wl,--gc-sections, 
+-T, /Applications/Energia.app/Contents/Resources/Java/hardware/lm4f/cores/lm4f/lm4fcpp_blizzard.ld, 
+-Wl,--entry=ResetISR, -mthumb, -mcpu=cortex-m4, -mfloat-abi=hard, -mfpu=fpv4-sp-d16, -fsingle-precision-constant, 
+-o, /var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build3641787042682345411.tmp/sketch_dec04a.cpp.elf, 
+/var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build3641787042682345411.tmp/sketch_dec04a.cpp.o, 
+/var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build3641787042682345411.tmp/core.a, 
+-L/var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build3641787042682345411.tmp, -lm, -lc, -lgcc, 
+-L/var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build3641787042682345411.tmp, -lm
+
+
+
+#actually produces:
+/Applications/Arduino.app/Contents/Resources/Java/hardware/tools/g++_arm_none_eabi/bin/arm-none-eabi-g++ 
+-O0 -nostartfiles -nostdlib -Wl --gc-sections 
+-T /Applications/Arduino.app/Contents/Resources/Java/hardware/arduino/attoDuino/variants/stellarpad/lm4fcpp_blizzard.ld 
+-Wl --entry=ResetISR, -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant 
+-o /var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build8547127314612027009.tmp/sketch_dec04a.cpp.elf 
+/var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build8547127314612027009.tmp/sketch_dec04a.cpp.o 
+/var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build8547127314612027009.tmp/core.a 
+-L/var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build8547127314612027009.tmp 
+-lm -lc -lgcc -L/var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build8547127314612027009.tmp -lm 
+
+
+
+# then
+[/Applications/Energia.app/Contents/Resources/Java/hardware/tools/lm4f/bin/arm-none-eabi-objcopy, -O, binary, /var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build3641787042682345411.tmp/sketch_dec04a.cpp.elf, /var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build3641787042682345411.tmp/sketch_dec04a.cpp.bin]
+
+
+
+
+
+## Create eeprom
+recipe.objcopy.eep.pattern=
+
+## Create hex
+recipe.objcopy.hex.pattern="{compiler.path}{compiler.elf2hex.cmd}" {compiler.elf2hex.flags} "{build.path}/{build.project_name}.elf" "{build.path}/{build.project_name}.bin"
+
+## Compute size
+recipe.size.pattern="{compiler.path}{compiler.size.cmd}" -A "{build.path}/{build.project_name}.elf"
+recipe.size.regex=\.text\s+([0-9]+).*
+
+
+# SAM3 Uploader tools
+# -------------------
+
+tools.bossac.cmd=bossac
+tools.bossac.cmd.windows=bossac.exe
+tools.bossac.path={runtime.ide.path}/hardware/tools
+
+tools.bossac.upload.params.verbose=-i -d
+tools.bossac.upload.params.quiet=
+tools.bossac.upload.pattern="{path}/{cmd}" {upload.verbose} --port={serial.port.file} -U {upload.native_usb} -e -w -v -b "{build.path}/{build.project_name}.bin" -R
+
