@@ -16,7 +16,7 @@ compiler.path={runtime.ide.path}/hardware/tools/g++_arm_none_eabi/bin/
 compiler.c.cmd=arm-none-eabi-gcc
 compiler.c.flags=-c -g -Os -w -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -Dprintf=iprintf
 compiler.c.elf.cmd=arm-none-eabi-g++
-compiler.c.elf.flags=-Os -Wl,--gc-sections
+compiler.c.elf.flags=-Os
 compiler.S.flags=-c -g -assembler-with-cpp
 compiler.cpp.cmd=arm-none-eabi-g++
 compiler.cpp.flags=-c -g -Os -w -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -fno-rtti -fno-exceptions -Dprintf=iprintf
@@ -94,7 +94,7 @@ recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} "{build
 
 
 ##### in progress, this is the thing that runs the linker script ...
-recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" -O0 -nostartfiles -nostdlib -Wl --gc-sections "-T {build.variant.path}/{build.ldscript}" -Wl --entry=ResetISR -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -o "{build.path}/{build.project_name}.elf" {object_files} "{build.path}/{archive_file}" "-L{build.path}" -lm -lc -lgcc "-L{build.path}" -lm
+recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" -O0 -nostartfiles -nostdlib "-T{build.variant.path}/{build.ldscript}" --entry=ResetISR -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -o "{build.path}/{build.project_name}.elf" {object_files} "{build.path}/{archive_file}" "-L{build.path}" -lm -lc -lgcc "-L{build.path}" -lm
 
 
 
