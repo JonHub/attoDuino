@@ -6,8 +6,9 @@
 
 MEMORY 
 {
-    flash (rx) : ORIGIN = 0x00000000, LENGTH = 0x00040000 
-    ram  (rwx) : ORIGIN = 0x20000000, LENGTH = 0x00008000 
+    /* for compling with bootloader */
+    flash  (rx) : ORIGIN = 0x00000000+0x2800, LENGTH = 0x0040000-0x2800
+    ram  (rwx) : ORIGIN = 0x20000000, LENGTH = 0x00008000
 }
 
 /* STACK_SIZE = DEFINED(STACK_SIZE) ? STACK_SIZE : 0x800 ; */
