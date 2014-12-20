@@ -44,8 +44,8 @@ build.usb_flags=-DUSB_VID={build.vid} -DUSB_PID={build.pid} -DUSBCON '-DUSB_MANU
 build.usb_manufacturer="Unknown"
 
 
-# SAM3 compile patterns
-# ---------------------
+# AttoDuino Compile Patterns
+# --------------------------
 
 #atto - note, c compiler is essentially identical to the compile CPP line
 ## Compile c files
@@ -57,15 +57,11 @@ recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" -c -O0 -w -fno-rtti -fno-ex
 #atto (cpp)
 recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" -c -O0 -w -fno-rtti -fno-exceptions -ffunction-sections -fdata-sections -mthumb -mcpu={build.mcu} -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -DF_CPU={build.f_cpu} -MMD -DARDUINO={runtime.ide.version} -DENERGIA=13 {includes} "{source_file}" -o "{object_file}"
 
-
 ## Create archives
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} "{build.path}/{archive_file}" "{object_file}"
 
 #atto linker script
 recipe.c.combine.pattern="{compiler.path}{compiler.c.elf.cmd}" -O0 -nostartfiles -nostdlib -Wl,--gc-sections "-T{build.variant.path}/{build.ldscript}" -Wl,--entry=ResetISR -mthumb -mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -o "{build.path}/{build.project_name}.elf" {object_files} "{build.path}/{archive_file}" "-L{build.path}" -lm -lc -lgcc "-L{build.path}" -lm
-
-# then
-[/Applications/Energia.app/Contents/Resources/Java/hardware/tools/lm4f/bin/arm-none-eabi-objcopy, -O, binary, /var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build3641787042682345411.tmp/sketch_dec04a.cpp.elf, /var/folders/fj/qgqw3b4x62s43sx631j94zrm0000gn/T/build3641787042682345411.tmp/sketch_dec04a.cpp.bin]
 
 ## Create eeprom
 recipe.objcopy.eep.pattern=
@@ -78,14 +74,10 @@ recipe.size.pattern="{compiler.path}{compiler.size.cmd}" -A "{build.path}/{build
 recipe.size.regex=\.text\s+([0-9]+).*
 
 
-# SAM3 Uploader tools
-# -------------------
+# AttoDuino Uploader Tools
+# ------------------------
 
-tools.bossac.cmd=bossac
-tools.bossac.cmd.windows=bossac.exe
-tools.bossac.path={runtime.ide.path}/hardware/tools
-
-tools.bossac.upload.params.verbose=-i -d
-tools.bossac.upload.params.quiet=
-tools.bossac.upload.pattern="{path}/{cmd}" {upload.verbose} --port={serial.port.file} -U {upload.native_usb} -e -w -v -b "{build.path}/{build.project_name}.bin" -R
-
+tools.sflash.cmd.path={runtime.ide.path}/hardware/arduino/attoDuino/tools/sflash/sflash.exe
+tools.sflash.upload.params.verbose=
+tools.sflash.upload.params.quiet=
+tools.sflash.upload.pattern="{cmd.path}" "{build.path}/{build.project_name}.bin" {upload.verbose} -p 0x2800 -c {serial.port} -b {upload.speed} -d -s 60

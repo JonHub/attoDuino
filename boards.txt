@@ -25,4 +25,13 @@ tmp4c123goff.build.variant=stellarpad
 #tmp4c123goff.ldscript=lm4fcpp_blizzardx2800.ld
 tmp4c123goff.build.ldscript=lm4fcpp_blizzardx2800.ld
 tmp4c123goff.upload.maximum_ram_size=32768
+
+#atto note - need to change upload maximum_size, etc.
+tmp4c123goff.upload.tool=sflash
+tmp4c123goff.upload.protocol=arduino
+tmp4c123goff.upload.maximum_size=32256
+tmp4c123goff.upload.maximum_data_size=2048
+tmp4c123goff.upload.speed=115200
+
+
 ##############################################################
