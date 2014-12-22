@@ -31,7 +31,8 @@ tmp4c123goff.upload.tool=sflash
 tmp4c123goff.upload.protocol=arduino
 tmp4c123goff.upload.maximum_size=32256
 tmp4c123goff.upload.maximum_data_size=2048
-tmp4c123goff.upload.speed=115200
+#tmp4c123goff.upload.speed=115200
+tmp4c123goff.upload.speed=460800
 
 
 ##############################################################

@@ -83,7 +83,7 @@ recipe.size.regex=\.text\s+([0-9]+).*
 # AttoDuino Uploader Tools
 # ------------------------
 
-tools.sflash.cmd.path={runtime.ide.path}/hardware/arduino/attoDuino/tools/sflash/sflash.exe
+tools.sflash.cmd.path={runtime.ide.path}/hardware/arduino/attoDuino/tools/sflash/sflash
 tools.sflash.upload.params.verbose=
 tools.sflash.upload.params.quiet=
-tools.sflash.upload.pattern="{cmd.path}" "{build.path}/{build.project_name}.bin" {upload.verbose} -p 0x2800 -c {serial.port} -b {upload.speed} -d -s 60
+tools.sflash.upload.pattern="{cmd.path}" "{build.path}/{build.project_name}.bin" {upload.verbose} -p 0x2800 -c {serial.port} -b {upload.speed} -d -s 220

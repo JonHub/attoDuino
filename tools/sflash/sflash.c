@@ -317,7 +317,7 @@
 #include "uart_handler.h"
 #include "packet_handler.h"
 
-#include <unistd.h> // for sleep functions
+//#include <unistd.h> // for sleep functions
 
 int32_t SendCommand(uint8_t *pui8Command, uint8_t ui8Size);
 int32_t UpdateFlash(FILE *hBootFile, FILE *hFile, uint32_t ui32Address);
@@ -730,17 +730,6 @@ main(int32_t argc, char **argv)
         printf("Failed to configure Host UART\n");
         return(-1);
     }
-  
-  
-  
-  
-    //jd - do an initial Send Command here ... then wait ...
-    printf("before sleep\n");
-    sleep(5);
-    printf("after sleep\n");
-
-  
-  
 
     //
     // Now try to auto baud with the board by sending the Sync and waiting
@@ -964,7 +953,9 @@ UpdateFlash(FILE *hFile, FILE *hBootFile, uint32_t ui32Address)
 
         g_pui8Buffer[0] = COMMAND_SEND_DATA;
 
-        printf("%08ld", ui32TransferLength);
+      //printf("%08ld", ui32TransferLength);
+      //atto ... add new line, so it actively counts ...
+        printf("%08ld\n", ui32TransferLength);
 
         //
         // Send out 8 bytes at a time to throttle download rate and avoid
@@ -994,7 +985,8 @@ UpdateFlash(FILE *hFile, FILE *hBootFile, uint32_t ui32Address)
             break;
         }
 
-        printf("\b\b\b\b\b\b\b\b");
+      //atto, don't print the backspaces
+      //printf("\b\b\b\b\b\b\b\b");
     } while (ui32TransferLength);
     printf("00000000\n");
 
