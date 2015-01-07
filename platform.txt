@@ -58,10 +58,10 @@ build.usb_manufacturer="Unknown"
 #recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" {compiler.c.flags} -mcpu={build.mcu} -DF_CPU={build.f_cpu} -DARDUINO={runtime.ide.version} -DARDUINO_{build.board} -DARDUINO_ARCH_{build.arch} {build.extra_flags} {compiler.libsam.c.flags} {includes} "{source_file}" -o "{object_file}"
 
 #atto (c, essentially identical to cpp line)
-recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" -c -O0 -w -fno-rtti -fno-exceptions -ffunction-sections -fdata-sections -mthumb -mcpu={build.mcu} -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -DF_CPU={build.f_cpu} -MMD -DARDUINO={runtime.ide.version} -DENERGIA=13 {includes} "{source_file}" -o "{object_file}"
+recipe.c.o.pattern="{compiler.path}{compiler.c.cmd}" -c -O0 -w -fno-rtti -fno-exceptions -ffunction-sections -fdata-sections -mthumb -mcpu={build.mcu} -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -DF_CPU={build.f_cpu} -DARM_FLOAT -MMD -DARDUINO={runtime.ide.version} -DENERGIA=13 {includes} "{source_file}" -o "{object_file}"
 
 #atto (cpp)
-recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" -c -O0 -w -fno-rtti -fno-exceptions -ffunction-sections -fdata-sections -mthumb -mcpu={build.mcu} -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -DF_CPU={build.f_cpu} -MMD -DARDUINO={runtime.ide.version} -DENERGIA=13 {includes} "{source_file}" -o "{object_file}"
+recipe.cpp.o.pattern="{compiler.path}{compiler.cpp.cmd}" -c -O0 -w -fno-rtti -fno-exceptions -ffunction-sections -fdata-sections -mthumb -mcpu={build.mcu} -mfloat-abi=hard -mfpu=fpv4-sp-d16 -fsingle-precision-constant -DARM_FLOAT -DF_CPU={build.f_cpu} -MMD -DARDUINO={runtime.ide.version} -DENERGIA=13 {includes} "{source_file}" -o "{object_file}"
 
 ## Create archives
 recipe.ar.pattern="{compiler.path}{compiler.ar.cmd}" {compiler.ar.flags} "{build.path}/{archive_file}" "{object_file}"
