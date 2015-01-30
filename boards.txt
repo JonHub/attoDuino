@@ -1,27 +1,43 @@
 # uses the linker with the x2800 program offset
+# uses mac version of the g++
 ##############################################################
-tmp4c123goff.name=AttoDuino Pro BT (with program offset)
-tmp4c123goff.upload.maximum_size=262144
-tmp4c123goff.build.mcu=cortex-m4
-tmp4c123goff.build.f_cpu=80000000L
-tmp4c123goff.build.core=lm4f
-tmp4c123goff.build.variant=stellarpad
-#atto, should say build.
-#tmp4c123goff.ldscript=lm4fcpp_blizzardx2800.ld
-tmp4c123goff.build.ldscript=lm4fcpp_blizzardx2800.ld
-tmp4c123goff.upload.maximum_ram_size=32768
-
-#atto note - need to change upload maximum_size, etc.
-tmp4c123goff.upload.tool=sflash
-tmp4c123goff.upload.protocol=arduino
-#tmp4c123goff.upload.maximum_size=32256
+tmp4c123gmac.name=AttoDuino Pro BT (mac)
+tmp4c123gmac.upload.maximum_size=262144
+tmp4c123gmac.build.mcu=cortex-m4
+tmp4c123gmac.build.f_cpu=80000000L
+tmp4c123gmac.build.core=lm4f
+tmp4c123gmac.build.variant=stellarpad
+tmp4c123gmac.build.ldscript=lm4fcpp_blizzardx2800.ld
+tmp4c123gmac.upload.maximum_ram_size=32768
+tmp4c123gmac.upload.tool=sflash
+tmp4c123gmac.upload.protocol=arduino
+#tmp4c123gmac.upload.maximum_size=32256
 #atto need to find actual max size (minus bootloader)
-tmp4c123goff.upload.maximum_size=256000
-tmp4c123goff.upload.maximum_data_size=2048
-tmp4c123goff.upload.speed=115200
-#tmp4c123goff.upload.speed=460800
-tmp4c123goff.compiler.path={runtime.ide.path}/hardware/arduino/attoDuino/tools/lm4f-mac/bin/
+tmp4c123gmac.upload.maximum_size=256000
+tmp4c123gmac.upload.maximum_data_size=2048
+tmp4c123gmac.upload.speed=115200
+#tmp4c123gmac.upload.speed=460800
+tmp4c123gmac.compiler.path={runtime.ide.path}/hardware/arduino/attoDuino/tools/lm4f-mac/bin/
 
 
-
+# uses the linker with the x2800 program offset
+# uses win version of the g++
 ##############################################################
+tmp4c123gwin.name=AttoDuino Pro BT (win)
+tmp4c123gwin.upload.maximum_size=262144
+tmp4c123gwin.build.mcu=cortex-m4
+tmp4c123gwin.build.f_cpu=80000000L
+tmp4c123gwin.build.core=lm4f
+tmp4c123gwin.build.variant=stellarpad
+tmp4c123gwin.build.ldscript=lm4fcpp_blizzardx2800.ld
+tmp4c123gwin.upload.maximum_ram_size=32768
+tmp4c123gwin.upload.tool=sflash
+tmp4c123gwin.upload.protocol=arduino
+#tmp4c123gwin.upload.maximum_size=32256
+#atto need to find actual max size (minus bootloader)
+tmp4c123gwin.upload.maximum_size=256000
+tmp4c123gwin.upload.maximum_data_size=2048
+tmp4c123gwin.upload.speed=115200
+#tmp4c123gwin.upload.speed=460800
+tmp4c123gwin.compiler.path={runtime.ide.path}/hardware/arduino/attoDuino/tools/lm4f-win/bin/
+
