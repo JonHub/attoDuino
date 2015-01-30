@@ -9,7 +9,7 @@ tmp4c123gmac.build.core=lm4f
 tmp4c123gmac.build.variant=stellarpad
 tmp4c123gmac.build.ldscript=lm4fcpp_blizzardx2800.ld
 tmp4c123gmac.upload.maximum_ram_size=32768
-tmp4c123gmac.upload.tool=sflash
+tmp4c123gmac.upload.tool=sflashmac
 tmp4c123gmac.upload.protocol=arduino
 #tmp4c123gmac.upload.maximum_size=32256
 #atto need to find actual max size (minus bootloader)
@@ -31,7 +31,7 @@ tmp4c123gwin.build.core=lm4f
 tmp4c123gwin.build.variant=stellarpad
 tmp4c123gwin.build.ldscript=lm4fcpp_blizzardx2800.ld
 tmp4c123gwin.upload.maximum_ram_size=32768
-tmp4c123gwin.upload.tool=sflash
+tmp4c123gwin.upload.tool=sflashwin
 tmp4c123gwin.upload.protocol=arduino
 #tmp4c123gwin.upload.maximum_size=32256
 #atto need to find actual max size (minus bootloader)
