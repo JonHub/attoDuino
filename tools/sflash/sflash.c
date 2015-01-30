@@ -329,7 +329,11 @@ int32_t CheckArgs(void);
 //! received from the device.
 //
 //*****************************************************************************
+
+// atto - make this very big ... sflash can push the buffer size - 5
+// so, a buffer of 11,000 should be able to push 10,000 at a time
 uint8_t g_pui8Buffer[256];
+//uint8_t g_pui8Buffer[11000];
 
 uint32_t g_pui32BaudRate;
 uint32_t g_ui32DataSize;
@@ -839,6 +843,10 @@ main(int32_t argc, char **argv)
 int32_t
 UpdateFlash(FILE *hFile, FILE *hBootFile, uint32_t ui32Address)
 {
+    uint8_t ui8Status;  //atto needed to flush the buffer
+    uint8_t ui8Size;  //atto needed to flush the buffer
+
+  
     uint32_t ui32FileLength;
     uint32_t ui32BootFileLength;
     uint32_t ui32TransferStart;
@@ -935,6 +943,16 @@ UpdateFlash(FILE *hFile, FILE *hBootFile, uint32_t ui32Address)
     g_pui8Buffer[6] = (uint8_t)(ui32TransferLength>>16);
     g_pui8Buffer[7] = (uint8_t)(ui32TransferLength>>8);
     g_pui8Buffer[8] = (uint8_t)ui32TransferLength;
+  
+    //atto ... flush the input buffer here ...
+    // this doesn't work ...
+    /*
+    ui8Size = sizeof(ui8Status);
+    while(GetPacket(&ui8Status, &ui8Size) > 0)
+    {
+      printf("flush!\n");
+    }
+    */
   
   
   
