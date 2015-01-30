@@ -12,12 +12,8 @@ version=1.5.5
 # SAM3 compile variables
 # ----------------------
 
-#atto - try using the energia compiler (newer!)
-#compiler.path={runtime.ide.path}/hardware/tools/g++_arm_none_eabi/bin/
-#compiler.path=/Applications/Energia.app/Contents/Resources/Java/hardware/tools/lm4f/bin/
-
-#tried copying this ...
-compiler.path={runtime.ide.path}/hardware/arduino/attoDuino/tools/lm4f/bin/
+#atto - added specific path for Mac
+#compiler.path={runtime.ide.path}/hardware/arduino/attoDuino/tools/lm4f-mac/bin/
 
 compiler.c.cmd=arm-none-eabi-gcc
 compiler.c.flags=-c -g -Os -w -ffunction-sections -fdata-sections -nostdlib --param max-inline-insns-single=500 -Dprintf=iprintf
@@ -37,7 +33,6 @@ compiler.size.cmd=arm-none-eabi-size
 compiler.define=-DARDUINO=
 # this can be overriden in boards.txt
 build.extra_flags=
-
 
 compiler.libsam.c.flags="-I{build.system.path}/libsam" "-I{build.system.path}/CMSIS/CMSIS/Include/" "-I{build.system.path}/CMSIS/Device/ATMEL/"
 
