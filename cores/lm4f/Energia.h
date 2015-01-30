@@ -327,7 +327,9 @@ long map(long, long, long, long, long);
 
 #endif
 
+//atto
 #include "pins_energia.h"
+//#include "pins_attoduino.h"
 
 #endif
 

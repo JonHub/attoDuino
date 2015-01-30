@@ -88,8 +88,8 @@ static const uint8_t D22 = 36; //PC5
 static const uint8_t D23 = 37; //PC4
 static const uint8_t D24 = 8;  //PA0
 
-static const uint8_t D25 = 0 //PA1
-static const uint8_t D26 = 0 // ... not connected?
+static const uint8_t D25 = 0; //PA1
+static const uint8_t D26 = 0; // ... not connected?
 
 //
 // Pin names based on the silkscreen, if using launchpad

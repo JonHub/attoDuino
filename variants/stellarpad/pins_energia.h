@@ -114,6 +114,7 @@ const uint32_t port_to_base[] = {
         (uint32_t) GPIO_PORTE_BASE,
         (uint32_t) GPIO_PORTF_BASE
 };
+
 const uint8_t digital_pin_to_timer[] = {
         NOT_ON_TIMER,   /*  dummy */
         NOT_ON_TIMER,   /*  1 - 3.3V */
@@ -157,6 +158,7 @@ const uint8_t digital_pin_to_timer[] = {
         T1B1,      		/*  39 - PF3 */
         T1A1,      		/*  40 - PF2 */
 };
+
 const uint8_t digital_pin_to_port[] = {
         NOT_A_PIN,      /*  dummy */
         NOT_A_PIN,      /*  1 - 3.3V */
@@ -200,6 +202,7 @@ const uint8_t digital_pin_to_port[] = {
         PF,      		/*  39 - PF3 */
         PF,      		/*  40 - PF2 */
 };
+
 const uint8_t digital_pin_to_bit_mask[] = {
         NOT_A_PIN,      /*  dummy */
         NOT_A_PIN,      /*  1 - 3.3V */

@@ -1,18 +1,4 @@
 #atto - added from energia’s boards.txt
-##############################################################
-tmp4c123g.name=AttoDuino Pro BT
-tmp4c123g.upload.maximum_size=262144
-tmp4c123g.build.mcu=cortex-m4
-tmp4c123g.build.f_cpu=80000000L
-tmp4c123g.build.core=lm4f
-tmp4c123g.build.variant=stellarpad
-#atto, should say build.
-#tmp4c123g.ldscript=lm4fcpp_blizzard.ld
-tmp4c123g.build.ldscript=lm4fcpp_blizzard.ld
-tmp4c123g.upload.maximum_ram_size=32768
-##############################################################
-
-#atto - added from energia’s boards.txt
 # uses the linker with the x2800 program offset
 ##############################################################
 tmp4c123goff.name=AttoDuino Pro BT (with program offset)
@@ -29,10 +15,12 @@ tmp4c123goff.upload.maximum_ram_size=32768
 #atto note - need to change upload maximum_size, etc.
 tmp4c123goff.upload.tool=sflash
 tmp4c123goff.upload.protocol=arduino
-tmp4c123goff.upload.maximum_size=32256
+#tmp4c123goff.upload.maximum_size=32256
+#atto need to find actual max size (minus bootloader)
+tmp4c123goff.upload.maximum_size=256000
 tmp4c123goff.upload.maximum_data_size=2048
-#tmp4c123goff.upload.speed=115200
-tmp4c123goff.upload.speed=460800
+tmp4c123goff.upload.speed=115200
+#tmp4c123goff.upload.speed=460800
 
 
 ##############################################################
