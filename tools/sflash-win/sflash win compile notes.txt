@@ -1,0 +1,2 @@
+download gcc, using the MinGW package
+gcc *.c -o sflash -sflash.exe
