@@ -80,9 +80,13 @@ recipe.size.regex=\.text\s+([0-9]+).*
 
 tools.sflashmac.cmd.path={runtime.ide.path}/hardware/arduino/attoDuino/tools/sflash-mac/sflash
 tools.sflashwin.cmd.path={runtime.ide.path}/hardware/arduino/attoDuino/tools/sflash-win/sflash.exe
+
+tools.sflashmac.upload.params.verbose=
+tools.sflashwin.upload.params.verbose=
+#tools.sflashwin.upload.params.quiet=
+
 tools.sflashmac.upload.params.verbose=
 tools.sflashwin.upload.params.quiet=
-tools.sflashmac.upload.params.verbose=
-tools.sflashwin.upload.params.quiet=
+
 tools.sflashmac.upload.pattern="{cmd.path}" "{build.path}/{build.project_name}.bin" -p 0x2800 -c {serial.port} -b {upload.speed} -d -s 220
 tools.sflashwin.upload.pattern="{cmd.path}" "{build.path}/{build.project_name}.bin" -p 0x2800 -c {serial.port} -b {upload.speed} -d -s 220
