@@ -71,7 +71,6 @@ void testRunningStatistics() {
     myStats.input( (1.0/1024)*float(analogRead( A0 )) );
     nLoops++;
     float t = 1e-6*float(micros());
-    
     if( t > nextUpdateTime ) {
       nextUpdateTime += updateInterval;
       
