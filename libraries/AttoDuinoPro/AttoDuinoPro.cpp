@@ -22,9 +22,9 @@ float secs() {
 }
 
 float analogReadFloat( int pin ) {
-  // analog input is 12 bits, set the scale here
-  static const float scale = 1.0 / (exp2f(12)-1.0);
-  return float(analogRead(pin)) * scale;
+  // analog input is 12 bits (0 to 4095), set the scale here
+  static const float scale = 4095.0;
+  return float(analogRead(pin)) / scale;
 }
 
 float analogReadVolts( int pin ) {

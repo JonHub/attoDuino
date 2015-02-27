@@ -15,8 +15,8 @@ tmp4c123gmac.upload.protocol=arduino
 #atto need to find actual max size (minus bootloader)
 tmp4c123gmac.upload.maximum_size=256000
 tmp4c123gmac.upload.maximum_data_size=2048
-tmp4c123gmac.upload.speed=115200
-#tmp4c123gmac.upload.speed=460800
+#tmp4c123gmac.upload.speed=115200
+tmp4c123gmac.upload.speed=460800
 tmp4c123gmac.compiler.path={runtime.ide.path}/hardware/arduino/attoDuino/tools/lm4f-mac/bin/
 
 
@@ -37,7 +37,7 @@ tmp4c123gwin.upload.protocol=arduino
 #atto need to find actual max size (minus bootloader)
 tmp4c123gwin.upload.maximum_size=256000
 tmp4c123gwin.upload.maximum_data_size=2048
-tmp4c123gwin.upload.speed=115200
-#tmp4c123gwin.upload.speed=460800
+#tmp4c123gwin.upload.speed=115200
+tmp4c123gwin.upload.speed=460800
 tmp4c123gwin.compiler.path={runtime.ide.path}/hardware/arduino/attoDuino/tools/lm4f-win/bin/
 

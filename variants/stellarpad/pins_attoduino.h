@@ -43,57 +43,53 @@
 #include "inc/hw_memmap.h"
 #include "driverlib/adc.h"
 
-//
-// Pin names based on the silkscreen
-//
-static const uint8_t PB_5 = 2;
-static const uint8_t PB_0 = 3;
-static const uint8_t PB_1 = 4;
-static const uint8_t PE_4 = 5;
-static const uint8_t PE_5 = 6;
-static const uint8_t PB_4 = 7;
-static const uint8_t PA_5 = 8;
-static const uint8_t PA_6 = 9;
-static const uint8_t PA_7 = 10;
-static const uint8_t PA_2 = 11;
-static const uint8_t PA_3 = 12;
-static const uint8_t PA_4 = 13;
-static const uint8_t PB_6 = 14;
-static const uint8_t PB_7 = 15;
-static const uint8_t PF_0 = 17;
-static const uint8_t PE_0 = 18;
-static const uint8_t PB_2 = 19;
-static const uint8_t PD_0 = 23;
-static const uint8_t PD_1 = 24;
-static const uint8_t PD_2 = 25;
-static const uint8_t PD_3 = 26;
-static const uint8_t PE_1 = 27;
-static const uint8_t PE_2 = 28;
-static const uint8_t PE_3 = 29;
-static const uint8_t PF_1 = 30;
-static const uint8_t PF_4 = 31;
-static const uint8_t PD_7 = 32;
-static const uint8_t PD_6 = 33;
-static const uint8_t PC_7 = 34;
-static const uint8_t PC_6 = 35;
-static const uint8_t PC_5 = 36;
-static const uint8_t PC_4 = 37;
-static const uint8_t PB_3 = 38;
-static const uint8_t PF_3 = 39;
-static const uint8_t PF_2 = 40;
 
-static const uint8_t A0 =  29; //PE_3
-static const uint8_t A1 =  28; //PE_2
-static const uint8_t A2 =  27; //PE_1
-static const uint8_t A3 =  18; //PE_0
-static const uint8_t A4 =  26; //PD_3
-static const uint8_t A5 =  25; //PD_2
-static const uint8_t A6 =  24; //PD_1
-static const uint8_t A7 =  23; //PD_0
-static const uint8_t A8 =   6; //PE_5
-static const uint8_t A9 =   5; //PE_4
-static const uint8_t A10 =  7; //PB_4
-static const uint8_t A11 =  2; //PB_5
+
+// pins and ports changed for attoduino
+// attoduino pin definition begin
+static const uint8_t PE_0 = 0;    /* PE0 */
+static const uint8_t PE_1 = 1;    /* PE1 */
+static const uint8_t PE_2 = 2;    /* PE2 */
+static const uint8_t PE_3 = 3;    /* PE3 */
+static const uint8_t PD_3 = 4;    /* PD3 */
+static const uint8_t PD_2 = 5;    /* PD2 */
+static const uint8_t PD_1 = 6;    /* PD1 */
+static const uint8_t PD_0 = 7;    /* PD0 */
+static const uint8_t PE_5 = 8;    /* PE5 */
+static const uint8_t PE_4 = 9;    /* PE4 */
+static const uint8_t PB_4 = 10;    /* PB4 */
+static const uint8_t PD_5 = 11;    /* PD5 */
+static const uint8_t PB_0 = 12;    /* PB0 */
+static const uint8_t PB_1 = 13;    /* PB1 */
+static const uint8_t PB_2 = 14;    /* PB2 */
+static const uint8_t PB_3 = 15;    /* PB3 */
+static const uint8_t PB_6 = 16;    /* PB6 */
+static const uint8_t PB_7 = 17;    /* PB7 */
+static const uint8_t PF_4 = 18;    /* (pushbutton) */
+static const uint8_t PD_7 = 19;    /* PB7 */
+static const uint8_t PC_7 = 20;    /* PC7 */
+static const uint8_t PC_6 = 21;    /* PC6 */
+static const uint8_t PC_5 = 22;    /* PC5 */
+static const uint8_t PC_4 = 23;    /* PC4 */
+static const uint8_t PA_0 = 24;    /* RX0 */
+static const uint8_t PA_1 = 25;    /* TX0 */
+static const uint8_t PA_2 = 26;    /* PA2 */
+// attoduino pin definition end
+
+static const uint8_t A0 =  0;
+static const uint8_t A1 =  1;
+static const uint8_t A2 =  2;
+static const uint8_t A3 =  3;
+static const uint8_t A4 =  4;
+static const uint8_t A5 =  5;
+static const uint8_t A6 =  6;
+static const uint8_t A7 =  7;
+static const uint8_t A8 =  8;
+static const uint8_t A9 =  9;
+static const uint8_t A10 = 10;
+
+//atto, needs to be a special pin ...
+//static const uint8_t A11 =  2; //PB_5
 
 static const uint8_t RED_LED = 30;
 static const uint8_t GREEN_LED = 39;
@@ -105,7 +101,7 @@ static const uint8_t TEMPSENSOR = 0;
 
 #ifdef ARDUINO_MAIN
 const uint32_t port_to_base[] = {
-  NOT_A_PORT,
+  //NOT_A_PORT,  // start counting at zero
   (uint32_t) GPIO_PORTA_BASE,
   (uint32_t) GPIO_PORTB_BASE,
   (uint32_t) GPIO_PORTC_BASE,

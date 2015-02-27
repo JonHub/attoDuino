@@ -34,7 +34,7 @@ struct FilterOnePole {
   FilterOnePole( FILTER_TYPE ft=LOWPASS, float fc=1.0, float initialValue=0 );
   
   // sets or resets the parameters and state of the filter
-  void setFilter( FILTER_TYPE ft, float frequency, float initialValue );
+  void setFilter( FILTER_TYPE ft, float frequency, float initialValue=0 );
 
   void setFrequency( float newFrequency );
   
