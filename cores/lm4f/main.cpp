@@ -1,4 +1,5 @@
 #include <Energia.h>
+#include <AttoDuino.h>
 
 #if defined(PART_TM4C129XNCZAD)
 #include "inc/tm4c129xnczad.h"
@@ -61,6 +62,8 @@ void _init(void)
 
 int main(void)
 {
+  setupAtto();  // enables BT, and sets pins correctly
+  
 	setup();
 
 	for (;;) {

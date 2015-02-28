@@ -1,12 +1,9 @@
-#include <AttoDuinoPro.h>
-#include "attoPinMap.h"
+#include <AttoDuino.h>
 
 #define PR(x) Serial.print(x)
 
 // leds are PF1, PF2 and PF3 ..
-void setup() {
-  setupAtto();    // enables the LEDS, and the battery read
-}
+void setup() {}
 
 void turnBluetoothOnAndOff() {
   while( true ) {
@@ -39,21 +36,7 @@ void writeAllPins() {
 }
 
 // 13 pins, excludes LEDs
-const int PWM_LIST[] = {
-  4,
-  5,
-  6,
-  7,
-  12,
-  13,
-  14,
-  15,
-  16,
-  17,
-  18,
-  19,
-  20
-};
+const int PWM_LIST[] = { 4, 5, 6, 7, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
 
 void testPWM() {
   for( int i = 0; i<13; ++i ) {
@@ -79,6 +62,7 @@ void testAnalogIn() {
     pinMode( p, INPUT);
   }
   
+  // note, can use either "A0" or just "0" to refer to a pin
   PR( "A0: " ); PR( 100.0 * analogReadFloat( 0 ) ); PR( "\n" );
   PR( "A1: " ); PR( 100.0 * analogReadFloat( 1 ) ); PR( "\n" );
   PR( "A2: " ); PR( 100.0 * analogReadFloat( 2 ) ); PR( "\n" );
@@ -119,17 +103,11 @@ void simpleColors() {
   }
 }
 
-
 void loop() {
-  delay( 1000 );
-  testAnalogIn();
+  //turnBluetoothOnAndOff();
+  //writeAllPins();
   //testPWM();
-  //writeAllPins();
-  //delay(10000); turnBluetoothOnAndOff();
+  //testAnalogIn();
   
-  //simpleColors();
-  //writeAllPins();
-  
-  //simpleColorsFastPWM();
-  //testLoop();
+  simpleColors();
 }

@@ -1,4 +1,4 @@
-#include "AttoDuinoPro.h"
+#include "AttoDuino.h"
 
 void BluetoothOff() {
   // use a dummy pin for now
