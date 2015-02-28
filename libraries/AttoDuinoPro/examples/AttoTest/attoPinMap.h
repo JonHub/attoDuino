@@ -53,6 +53,7 @@ static const uint8_t D25 = 0; //PA1
 static const uint8_t D26 = 0;
 */
 
+/*
 // this makes more sense, write the pin stuff explicitly ...
 static const uint8_t D0 =  PE_0;
 static const uint8_t D1 =  PE_1;
@@ -100,5 +101,6 @@ static const uint8_t D26 = 0;
 
 static const uint8_t PIN_BT_RESET = 10;
 static const uint8_t PIN_BT_CONTROL = 9;
+ */
 
 #endif

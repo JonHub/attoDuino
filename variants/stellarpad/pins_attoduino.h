@@ -43,20 +43,18 @@
 #include "inc/hw_memmap.h"
 #include "driverlib/adc.h"
 
-
-
 // pins and ports changed for attoduino
 // attoduino pin definition begin
-static const uint8_t PE_0 = 0;    /* PE0 */
-static const uint8_t PE_1 = 1;    /* PE1 */
-static const uint8_t PE_2 = 2;    /* PE2 */
-static const uint8_t PE_3 = 3;    /* PE3 */
-static const uint8_t PD_3 = 4;    /* PD3 */
-static const uint8_t PD_2 = 5;    /* PD2 */
-static const uint8_t PD_1 = 6;    /* PD1 */
-static const uint8_t PD_0 = 7;    /* PD0 */
-static const uint8_t PE_5 = 8;    /* PE5 */
-static const uint8_t PE_4 = 9;    /* PE4 */
+static const uint8_t PE_0 = 0;     /* PE0 */
+static const uint8_t PE_1 = 1;     /* PE1 */
+static const uint8_t PE_2 = 2;     /* PE2 */
+static const uint8_t PE_3 = 3;     /* PE3 */
+static const uint8_t PD_3 = 4;     /* PD3 */
+static const uint8_t PD_2 = 5;     /* PD2 */
+static const uint8_t PD_1 = 6;     /* PD1 */
+static const uint8_t PD_0 = 7;     /* PD0 */
+static const uint8_t PE_5 = 8;     /* PE5 */
+static const uint8_t PE_4 = 9;     /* PE4 */
 static const uint8_t PB_4 = 10;    /* PB4 */
 static const uint8_t PD_5 = 11;    /* PD5 */
 static const uint8_t PB_0 = 12;    /* PB0 */
@@ -68,14 +66,20 @@ static const uint8_t PB_7 = 17;    /* PB7 */
 static const uint8_t PF_4 = 18;    /* (pushbutton) */
 static const uint8_t PD_7 = 19;    /* PB7 */
 static const uint8_t PC_7 = 20;    /* PC7 */
-static const uint8_t PC_6 = 21;    /* PC6 */
-static const uint8_t PC_5 = 22;    /* PC5 */
-static const uint8_t PC_4 = 23;    /* PC4 */
+static const uint8_t PC_6 = 21;    /* LED_RED */
+static const uint8_t PC_5 = 22;    /* LED_GREEN */
+static const uint8_t PC_4 = 23;    /* LED_BLUE */
 static const uint8_t PA_0 = 24;    /* RX0 */
 static const uint8_t PA_1 = 25;    /* TX0 */
 static const uint8_t PA_2 = 26;    /* PA2 */
+static const uint8_t PD_6 = 27;    /* battery_read_enable */
+static const uint8_t PB_5 = 28;    /* half_battery */
+static const uint8_t PA_6 = 29;    /* bt_control */
+static const uint8_t PA_7 = 30;    /* bt_reset */
 // attoduino pin definition end
 
+// changed for attoduino
+// note, the first 4 pins are reversed, for layout reasons ...
 static const uint8_t A0 =  0;
 static const uint8_t A1 =  1;
 static const uint8_t A2 =  2;
@@ -87,21 +91,33 @@ static const uint8_t A7 =  7;
 static const uint8_t A8 =  8;
 static const uint8_t A9 =  9;
 static const uint8_t A10 = 10;
+static const uint8_t A11 = 28; // half battery read
 
-//atto, needs to be a special pin ...
-//static const uint8_t A11 =  2; //PB_5
+static const uint8_t RED_LED =   21;
+static const uint8_t GREEN_LED = 22;
+static const uint8_t BLUE_LED =  23;
 
-static const uint8_t RED_LED = 30;
-static const uint8_t GREEN_LED = 39;
-static const uint8_t BLUE_LED = 40;
+static const uint8_t PIN_LED_RED = 21;
+static const uint8_t PIN_LED_GREEN = 22;
+static const uint8_t PIN_LED_BLUE = 23;
 
-static const uint8_t PUSH1 = 31;
-static const uint8_t PUSH2 = 17;
-static const uint8_t TEMPSENSOR = 0;
+// for reading the battery
+static const uint8_t PIN_BATTERY_READ_ENABLE = 27;
+static const uint8_t PIN_HALF_BATTERY = 28;
+
+// for dealing with bluetooth
+static const uint8_t PIN_BT_CONTROL = 29;
+static const uint8_t PIN_BT_RESET = 30;
+
+//static const uint8_t PUSH1 = 31;
+//static const uint8_t PUSH2 = 17;
+//static const uint8_t TEMPSENSOR = 0;
 
 #ifdef ARDUINO_MAIN
+
+// does not need modification for attoduino?
 const uint32_t port_to_base[] = {
-  //NOT_A_PORT,  // start counting at zero
+  NOT_A_PORT,
   (uint32_t) GPIO_PORTA_BASE,
   (uint32_t) GPIO_PORTB_BASE,
   (uint32_t) GPIO_PORTC_BASE,
@@ -110,136 +126,110 @@ const uint32_t port_to_base[] = {
   (uint32_t) GPIO_PORTF_BASE
 };
 
+// changed for attoduino
 const uint8_t digital_pin_to_timer[] = {
-  NOT_ON_TIMER,   /*  dummy */
-  NOT_ON_TIMER,   /*  1 - 3.3V */
-  T1B0,      		/*  2 - PB5 */
-  T2A0,      		/*  3 - PB0 */
-  T2B, 	  		/*  4 - PB1 */
-  NOT_ON_TIMER, 	/*  5 - PE4 */
-  NOT_ON_TIMER, 	/*  6 - PE5 */
-  T1A0,      		/*  7 - PB4 */
-  NOT_ON_TIMER, 	/*  8 - PA5 */
-  NOT_ON_TIMER, 	/*  9 - PA6 */
-  NOT_ON_TIMER, 	/*  10 - PA7 */
-  NOT_ON_TIMER, 	/*  11 - PA2 */
-  NOT_ON_TIMER, 	/*  12 - PA3 */
-  NOT_ON_TIMER, 	/*  13 - PA4 */
-  T0A0,      		/*  14 - PB6 */
-  T0B0,      		/*  15 - PB7 */
-  NOT_ON_TIMER, 	/*  16 - RST */
-  T0A1,      		/*  17 - PF0 */
-  NOT_ON_TIMER, 	/*  18 - PE0 */
-  T3A,       		/*  19 - PB2 */
-  NOT_ON_TIMER, 	/*  20 - GND */
-  NOT_ON_TIMER, 	/*  21 - VBUS */
-		NOT_ON_TIMER, 	/*  22 - GND */
-  WT2A,      		/*  23 - PD0 */
-  WT2B,      		/*  24 - PD1 */
-  WT3A,      		/*  25 - PD2 */
-  WT3B,      		/*  26 - PD3 */
-  NOT_ON_TIMER, 	/*  27 - PE1 */
-  NOT_ON_TIMER, 	/*  28 - PE2 */
-  NOT_ON_TIMER, 	/*  29 - PE3 */
-  T0B1,      		/*  30 - PF1 */
-  T2A1, 	  		/*  31 - PF4 */
-  WT5B,      		/*  32 - PD7 */
-  WT5A,      		/*  33 - PD6 */
-  WT1B,      		/*  34 - PC7 */
-  WT1A,      		/*  35 - PC6 */
-  WT0B,      		/*  36 - PC5 */
-  WT0A,      		/*  37 - PC4 */
-  T3B,       		/*  38 - PB3 */
-  T1B1,      		/*  39 - PF3 */
-  T1A1,      		/*  40 - PF2 */
+  NOT_ON_TIMER, /* 0 */
+  NOT_ON_TIMER, /* 1 */
+  NOT_ON_TIMER, /* 2 */
+  NOT_ON_TIMER, /* 3 */
+  WT3B, /* 4 PD_3 */
+  WT3A, /* 5 PD_2 */
+  WT2B, /* 6 PD_1 */
+  WT2A, /* 7 PD_0) */
+  NOT_ON_TIMER, /* 8 */
+  NOT_ON_TIMER, /* 9 */
+  NOT_ON_TIMER, /* 10 */
+  NOT_ON_TIMER, /* 11 */
+  T2A0, /* 12 PB_0 */
+  T2B,  /* 13 PB_1 */
+  T3A,  /* 14 PB_2 */
+  T3B,  /* 15 PB_3 */
+  T0A0, /* 16 PB_6 */
+  T0B0, /* 17 PB_7 */
+  T2A1, /* 18 PF_4 */
+  WT5B, /* 19 PD_7 */
+  WT1B, /* 20 PC_7 */
+  WT1A, /* 21 PC_6 */
+  WT0B, /* 22 PC_5 */
+  WT0A, /* 23 PC_4 */
+  NOT_ON_TIMER, /* 24 */
+  NOT_ON_TIMER, /* 25 */
+  NOT_ON_TIMER, /* 26 PA_2 ... may actually be a timer for this ... */
+  NOT_ON_TIMER, /* 27 */
+  NOT_ON_TIMER, /* 28 */
+  NOT_ON_TIMER, /* 29 */
+  NOT_ON_TIMER  /* 30 */
 };
 
-const uint8_t digital_pin_to_port[] = {
-  NOT_A_PIN,      /*  dummy */
-  NOT_A_PIN,      /*  1 - 3.3V */
-  PB,      		/*  2 - PB5 */
-  PB,      		/*  3 - PB0 */
-  PB, 	  		/*  4 - PB1 */
-  PE, 	        /*  5 - PE4 */
-  PE, 	        /*  6 - PE5 */
-  PB,      		/*  7 - PB4 */
-  PA, 	        /*  8 - PA5 */
-  PA, 	        /*  9 - PA6 */
-  PA, 	        /*  10 - PA7 */
-  PA, 	        /*  11 - PA2 */
-  PA, 	        /*  12 - PA3 */
-  PA, 	        /*  13 - PA4 */
-  PB,      		/*  14 - PB6 */
-  PB,      		/*  15 - PB7 */
-  NOT_A_PIN,      /*  16 - RST */
-  PF,      		/*  17 - PF0 */
-  PE,             /*  18 - PE0 */
-  PB,       		/*  19 - PB2 */
-  NOT_A_PIN, 	    /*  20 - GND */
-  NOT_A_PIN, 	    /*  21 - VBUS */
-		NOT_A_PIN, 	    /*  22 - GND */
-  PD,      		/*  23 - PD0 */
-  PD,      		/*  24 - PD1 */
-  PD,      		/*  25 - PD2 */
-  PD,      		/*  26 - PD3 */
-  PE, 	        /*  27 - PE1 */
-  PE, 	        /*  28 - PE2 */
-  PE, 	        /*  29 - PE3 */
-  PF,      		/*  30 - PF1 */
-  PF, 	  		/*  31 - PF4 */
-  PD,      		/*  32 - PD7 */
-  PD,      		/*  33 - PD6 */
-  PC,      		/*  34 - PC7 */
-  PC,      		/*  35 - PC6 */
-  PC,      		/*  36 - PC5 */
-  PC,      		/*  37 - PC4 */
-  PB,       		/*  38 - PB3 */
-  PF,      		/*  39 - PF3 */
-  PF,      		/*  40 - PF2 */
+// changed for attoduino
+const uint8_t digital_pin_to_port[]       = {
+  PE,     // 00 - PE_0       PE0
+  PE,     // 01 - PE_1       PE1
+  PE,     // 02 - PE_2       PE2
+  PE,     // 03 - PE_3       PE3
+  PD,     // 04 - PD_3       PD3
+  PD,     // 05 - PD_2       PD2
+  PD,     // 06 - PD_1       PD1
+  PD,     // 07 - PD_0       PD0
+  PE,     // 08 - PE_5       PE5
+  PE,     // 09 - PE_4       PE4
+  PB,     // 10 - PB_4       PB4
+  PD,     // 11 - PD_5       PD5
+  PB,     // 12 - PB_0       PB0
+  PB,     // 13 - PB_1       PB1
+  PB,     // 14 - PB_2       PB2
+  PB,     // 15 - PB_3       PB3
+  PB,     // 16 - PB_6       PB6
+  PB,     // 17 - PB_7       PB7
+  PF,     // 18 - PF_4       (pushbutton)
+  PD,     // 19 - PD_7       PB7
+  PC,     // 20 - PC_7       PC7
+  PC,     // 21 - PC_6       LED_RED
+  PC,     // 22 - PC_5       LED_GREEN
+  PC,     // 23 - PC_4       LED_BLUE
+  PA,     // 24 - PA_0       RX0
+  PA,     // 25 - PA_1       TX0
+  PA,     // 26 - PA_2       PA2
+  PD,     // 27 - PD_6       battery_read_enable
+  PB,     // 28 - PB_5       half_battery
+  PA,     // 29 - PA_6       bt_control
+  PA,     // 30 - PA_7       bt_reset
 };
 
-const uint8_t digital_pin_to_bit_mask[] = {
-  NOT_A_PIN,      /*  dummy */
-  NOT_A_PIN,      /*  1 - 3.3V */
-  BV(5),      	/*  2 - PB5 */
-  BV(0),      	/*  3 - PB0 */
-  BV(1), 	  		/*  4 - PB1 */
-  BV(4), 	        /*  5 - PE4 */
-  BV(5), 	        /*  6 - PE5 */
-  BV(4),      	/*  7 - PB4 */
-  BV(5), 	        /*  8 - PA5 */
-  BV(6), 	        /*  9 - PA6 */
-  BV(7), 	        /*  10 - PA7 */
-  BV(2), 	        /*  11 - PA2 */
-  BV(3), 	        /*  12 - PA3 */
-  BV(4), 	        /*  13 - PA4 */
-  BV(6),      	/*  14 - PB6 */
-  BV(7),      	/*  15 - PB7 */
-  NOT_A_PIN,      /*  16 - RST */
-  BV(0),      	/*  17 - PF0 */
-  BV(0),          /*  18 - PE0 */
-  BV(2),       	/*  19 - PB2 */
-  NOT_A_PIN, 	    /*  20 - GND */
-  NOT_A_PIN, 	    /*  21 - VBUS */
-		NOT_A_PIN, 	    /*  22 - GND */
-  BV(0),      	/*  23 - PD0 */
-  BV(1),      	/*  24 - PD1 */
-  BV(2),      	/*  25 - PD2 */
-  BV(3),      	/*  26 - PD3 */
-  BV(1), 	        /*  27 - PE1 */
-  BV(2), 	        /*  28 - PE2 */
-  BV(3), 	        /*  29 - PE3 */
-  BV(1),      	/*  30 - PF1 */
-  BV(4), 	  		/*  31 - PF4 */
-  BV(7),      	/*  32 - PD7 */
-  BV(6),      	/*  33 - PD6 */
-  BV(7),      	/*  34 - PC7 */
-  BV(6),      	/*  35 - PC6 */
-  BV(5),      	/*  36 - PC5 */
-  BV(4),      	/*  37 - PC4 */
-  BV(3),       	/*  38 - PB3 */
-  BV(3),      	/*  39 - PF3 */
-  BV(2),      	/*  40 - PF2 */
+
+// changed for attoduino
+const uint8_t digital_pin_to_bit_mask[]   = {
+  BV(0),          // 00 - PE_0       PE0
+  BV(1),          // 01 - PE_1       PE1
+  BV(2),          // 02 - PE_2       PE2
+  BV(3),          // 03 - PE_3       PE3
+  BV(3),          // 04 - PD_3       PD3
+  BV(2),          // 05 - PD_2       PD2
+  BV(1),          // 06 - PD_1       PD1
+  BV(0),          // 07 - PD_0       PD0
+  BV(5),          // 08 - PE_5       PE5
+  BV(4),          // 09 - PE_4       PE4
+  BV(4),          // 10 - PB_4       PB4
+  BV(5),          // 11 - PD_5       PD5
+  BV(0),          // 12 - PB_0       PB0
+  BV(1),          // 13 - PB_1       PB1
+  BV(2),          // 14 - PB_2       PB2
+  BV(3),          // 15 - PB_3       PB3
+  BV(6),          // 16 - PB_6       PB6
+  BV(7),          // 17 - PB_7       PB7
+  BV(4),          // 18 - PF_4       (pushbutton)
+  BV(7),          // 19 - PD_7       PB7
+  BV(7),          // 20 - PC_7       PC7
+  BV(6),          // 21 - PC_6       LED_RED
+  BV(5),          // 22 - PC_5       LED_GREEN
+  BV(4),          // 23 - PC_4       LED_BLUE
+  BV(0),          // 24 - PA_0       RX0
+  BV(1),          // 25 - PA_1       TX0
+  BV(2),          // 26 - PA_2       PA2
+  BV(6),          // 27 - PD_6       battery_read_enable
+  BV(5),          // 28 - PB_5       half_battery
+  BV(6),          // 29 - PA_6       bt_control
+  BV(7),          // 30 - PA_7       bt_reset
 };
 
 const uint32_t timer_to_offset[] = {
@@ -293,73 +283,69 @@ const uint8_t timer_to_ab[] = {
   TIMA,
   TIMB,
 };
+
 const uint32_t timer_to_pin_config[] = {
-		GPIO_PB6_T0CCP0,
-		GPIO_PF0_T0CCP0,
-		GPIO_PB7_T0CCP1,
-		GPIO_PF1_T0CCP1,
-		GPIO_PB4_T1CCP0,
-		GPIO_PF2_T1CCP0,
-		GPIO_PB5_T1CCP1,
-		GPIO_PF3_T1CCP1,
-		GPIO_PB0_T2CCP0,
-		GPIO_PF4_T2CCP0,
-		GPIO_PB1_T2CCP1,
-		GPIO_PB2_T3CCP0,
-		GPIO_PB3_T3CCP1,
-		GPIO_PC4_WT0CCP0,
-		GPIO_PC5_WT0CCP1,
-		GPIO_PC6_WT1CCP0,
-		GPIO_PC7_WT1CCP1,
-		GPIO_PD0_WT2CCP0,
-		GPIO_PD1_WT2CCP1,
-		GPIO_PD2_WT3CCP0,
+  GPIO_PB6_T0CCP0,
+  GPIO_PF0_T0CCP0,
+  GPIO_PB7_T0CCP1,
+  GPIO_PF1_T0CCP1,
+  GPIO_PB4_T1CCP0,
+  GPIO_PF2_T1CCP0,
+  GPIO_PB5_T1CCP1,
+  GPIO_PF3_T1CCP1,
+  GPIO_PB0_T2CCP0,
+  GPIO_PF4_T2CCP0,
+  GPIO_PB1_T2CCP1,
+  GPIO_PB2_T3CCP0,
+  GPIO_PB3_T3CCP1,
+  GPIO_PC4_WT0CCP0,
+  GPIO_PC5_WT0CCP1,
+  GPIO_PC6_WT1CCP0,
+  GPIO_PC7_WT1CCP1,
+  GPIO_PD0_WT2CCP0,
+  GPIO_PD1_WT2CCP1,
+  GPIO_PD2_WT3CCP0,
   GPIO_PD3_WT3CCP1,
   GPIO_PD6_WT5CCP0,
   GPIO_PD7_WT5CCP1,
 };
+
+// changed for attoduino
+// note, first four are reversed, for layout reasons ...
+// this makes pin 0 match with A0
 const uint32_t digital_pin_to_analog_in[] = {
-  ADC_CTL_TS,     /*  0 - TempSensor   */
-  NOT_ON_ADC,     /*  1 - 3.3V*/
-  ADC_CTL_CH11,	/*  2 - PB5 */
-  NOT_ON_ADC,     /*  3 - PB0 */
-  NOT_ON_ADC, 	/*  4 - PB1 */
-  ADC_CTL_CH9, 	/*  5 - PE4 */
-  ADC_CTL_CH8, 	/*  6 - PE5 */
-  ADC_CTL_CH10,   /*  7 - PB4 */
-  NOT_ON_ADC, 	/*  8 - PA5 */
-  NOT_ON_ADC, 	/*  9 - PA6 */
-  NOT_ON_ADC, 	/*  10 - PA7 */
-  NOT_ON_ADC, 	/*  11 - PA2 */
-  NOT_ON_ADC, 	/*  12 - PA3 */
-  NOT_ON_ADC, 	/*  13 - PA4 */
-  NOT_ON_ADC,     /*  14 - PB6 */
-  NOT_ON_ADC,     /*  15 - PB7 */
-  NOT_ON_ADC, 	/*  16 - RST */
-  NOT_ON_ADC,     /*  17 - PF0 */
-  ADC_CTL_CH3, 	/*  18 - PE0 */
-  NOT_ON_ADC,     /*  19 - PB2 */
-  NOT_ON_ADC, 	/*  20 - GND */
-  NOT_ON_ADC, 	/*  21 - VBUS */
-		NOT_ON_ADC, 	/*  22 - GND */
-  ADC_CTL_CH7,    /*  23 - PD0 */
-  ADC_CTL_CH6,    /*  24 - PD1 */
-  ADC_CTL_CH5,    /*  25 - PD2 */
-  ADC_CTL_CH4,	/*  26 - PD3 */
-  ADC_CTL_CH2, 	/*  27 - PE1 */
-  ADC_CTL_CH1, 	/*  28 - PE2 */
-  ADC_CTL_CH0, 	/*  29 - PE3 */
-  NOT_ON_ADC,     /*  30 - PF1 */
-  NOT_ON_ADC, 	/*  31 - PF4 */
-  NOT_ON_ADC,     /*  32 - PD7 */
-  NOT_ON_ADC,     /*  33 - PD6 */
-  NOT_ON_ADC,     /*  34 - PC7 */
-  NOT_ON_ADC,     /*  35 - PC6 */
-  NOT_ON_ADC,     /*  36 - PC5 */
-  NOT_ON_ADC,     /*  37 - PC4 */
-  NOT_ON_ADC,  	/*  38 - PB3 */
-  NOT_ON_ADC,		/*  39 - PF3 */
-  NOT_ON_ADC,     /*  40 - PF2 */
+  ADC_CTL_CH3,     // 00 - PE_0       PE0
+  ADC_CTL_CH2,     // 01 - PE_1       PE1
+  ADC_CTL_CH1,     // 02 - PE_2       PE2
+  ADC_CTL_CH0,     // 03 - PE_3       PE3
+  ADC_CTL_CH4,     // 04 - PD_3       PD3
+  ADC_CTL_CH5,     // 05 - PD_2       PD2
+  ADC_CTL_CH6,     // 06 - PD_1       PD1
+  ADC_CTL_CH7,     // 07 - PD_0       PD0
+  ADC_CTL_CH8,     // 08 - PE_5       PE5
+  ADC_CTL_CH9,     // 09 - PE_4       PE4
+  ADC_CTL_CH10,    // 10 - PB_4       PB4
+  NOT_ON_ADC,     // 11 - PD_5       PD5
+  NOT_ON_ADC,     // 12 - PB_0       PB0
+  NOT_ON_ADC,     // 13 - PB_1       PB1
+  NOT_ON_ADC,     // 14 - PB_2       PB2
+  NOT_ON_ADC,     // 15 - PB_3       PB3
+  NOT_ON_ADC,     // 16 - PB_6       PB6
+  NOT_ON_ADC,     // 17 - PB_7       PB7
+  NOT_ON_ADC,     // 18 - PF_4       (pushbutton)
+  NOT_ON_ADC,     // 19 - PD_7       PB7
+  NOT_ON_ADC,     // 20 - PC_7       PC7
+  NOT_ON_ADC,     // 21 - PC_6       LED_RED
+  NOT_ON_ADC,     // 22 - PC_5       LED_GREEN
+  NOT_ON_ADC,     // 23 - PC_4       LED_BLUE
+  NOT_ON_ADC,     // 24 - PA_0       RX0
+  NOT_ON_ADC,     // 25 - PA_1       TX0
+  NOT_ON_ADC,     // 26 - PA_2       PA2
+  NOT_ON_ADC,     // 27 - PD_6       battery_read_enable
+  ADC_CTL_CH11,   // 28 - PB_5       half_battery
+  NOT_ON_ADC,     // 29 - PA_6       bt_control
+  NOT_ON_ADC,     // 30 - PA_7       bt_reset
 };
+
 #endif
 #endif

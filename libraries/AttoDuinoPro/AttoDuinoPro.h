@@ -11,6 +11,12 @@ void setupAtto();
 // returns the battery voltage, in volts
 float batteryReadVolts();
 
+// turns on bluetooth (release from reset), and starts serial port
+void BluetoothOff();
+
+// turns off bluetooth module (holds in reset)
+void BluetoothOn();
+
 // return elapsed time, in seconds
 float secs();
 

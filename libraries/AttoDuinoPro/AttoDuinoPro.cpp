@@ -1,20 +1,42 @@
 #include "AttoDuinoPro.h"
 
-// define pins for the battery operations
-const int PIN_BATT_READ_ENABLE = PD_6;
-const int PIN_HALF_BATT = A11;
+void BluetoothOff() {
+  // use a dummy pin for now
+  // flip pin low to hold in reset
+  // note, never flip pin to a high output!
+  // the module is not 3.3V tollerant
+  // note, output must be set before specifying a value
+  // this causes the pin to go high for about 2 microseconds
+  // ... however, the RC filter on the board takes care of this
+  // tau on the board reset is 1 ms, though
+  // takes about 50 ms to get around to this
+  // the weak PU on the BT module is about 30 to 50k
+  
+  pinMode( PIN_BT_RESET, OUTPUT );
+  digitalWrite( PIN_BT_RESET, 0 );
+}
+
+void BluetoothOn() {
+  // flip to input (high impedance) to allow reset pin to come high
+  // note, never flip pin to a high output!
+  // the module is not 3.3V tollerant
+  pinMode( PIN_BT_RESET, INPUT );
+  Serial.begin( 460800 );
+}
 
 void setupAtto() {
-  pinMode(RED_LED,   OUTPUT);
-  pinMode(GREEN_LED, OUTPUT);
-  pinMode(BLUE_LED,  OUTPUT);
+  pinMode(RED_LED,   OUTPUT);  digitalWrite( RED_LED, 1);
+  pinMode(GREEN_LED, OUTPUT);  digitalWrite( GREEN_LED, 1);
+  pinMode(BLUE_LED,  OUTPUT);  digitalWrite( BLUE_LED, 1);
   
-  pinMode(PIN_BATT_READ_ENABLE, OUTPUT);
-  digitalWrite( PIN_BATT_READ_ENABLE, false );  // sets this value to low
+  pinMode(PIN_BATTERY_READ_ENABLE, OUTPUT);
+  digitalWrite( PIN_BATTERY_READ_ENABLE, false );  // sets this value to low
+  
+  BluetoothOn();    // turns on bluetooth, and enables the serial port
 }
 
 float batteryReadVolts() {
-  return analogReadVolts( PIN_HALF_BATT )*2.0;
+  return analogReadVolts( PIN_HALF_BATTERY )*2.0;
 }
 
 float secs() {
