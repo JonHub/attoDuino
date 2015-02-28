@@ -5,17 +5,17 @@
 
 #define PR(x) (Serial.print(x))            /* make it easier to print a line */
 
-// sets up the pins for the Atto
+// sets up the pins for the Atto ... this runs automatically, before Arduino setup()
 void setupAtto();
 
 // returns the battery voltage, in volts
 float batteryReadVolts();
 
-// turns on bluetooth (release from reset), and starts serial port
-void BluetoothOff();
-
 // turns off bluetooth module (holds in reset)
 void BluetoothOn();
+
+// turns on bluetooth (release from reset), and starts serial port
+void BluetoothOff();
 
 // return elapsed time, in seconds
 float secs();
