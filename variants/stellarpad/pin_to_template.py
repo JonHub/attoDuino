@@ -51,7 +51,7 @@ digital_pin_to_analog_in = "const uint32_t digital_pin_to_analog_in[] = {\n"
 #energiapinlast = 0
 energiapinlast = -1    # making the last pin -1, starts the system looking at pin 0
 for pin in pins:
-    if len(pin) < 30:
+    if len(pin) < 31:
         continue
     if pin[0:2] == "//": # this rigs commented out pins to have same number of fields
         pin = pin.replace("//                  ","static const uint8_t ")

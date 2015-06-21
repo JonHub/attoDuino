@@ -80,7 +80,8 @@ void FilterTwoPole::setQ( float qualityFactor ) {
 }
 
 void FilterTwoPole::setFrequency0( float f ) {
-  W0 = TWO_PI*abs(f);
+  //W0 = TWO_PI*abs(f);
+  W0 = TWO_PI*f;
 }
 
 void FilterTwoPole::setAsFilter( OSCILLATOR_TYPE ft, float frequency3db, float initialValue ) {
@@ -113,9 +114,9 @@ void FilterTwoPole::setAsFilter( OSCILLATOR_TYPE ft, float frequency3db, float i
   //  setFrequency0( frequency3db );
   //  setQ( 0.7071 );
   //}
-  
-  
 }
+
+static long nLoops = 0;
 
 float FilterTwoPole::input( float drive ) {
   Fprev = drive;                      // needed when using filter as a highpass
@@ -142,6 +143,19 @@ float FilterTwoPole::input( float drive ) {
 
   // normally, this returns output
   // use it here to figure out how to return highpass
+  
+  if( (nLoops++ % 500) == 0 ) {
+    // print (debugging)
+    /*
+    Serial.print( "\ndt: "); Serial.print( dt );
+
+    Serial.print( "\tA: "); Serial.print( A );
+    Serial.print( "\tV: "); Serial.print( V );
+    Serial.print( "tVavg: "); Serial.print( Vavg );
+
+    Serial.print( "\drive: " ); Serial.print( drive );
+    */
+  }
   
   //return Q/W0*Vavg;
   return output();

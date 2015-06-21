@@ -19,5 +19,4 @@
 #include "FilterTwoPole.h"
 #include "FilterDerivative.h"
 
-
 #endif

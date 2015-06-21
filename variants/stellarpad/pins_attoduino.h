@@ -66,9 +66,13 @@ static const uint8_t PB_7 = 17;    /* PB7 */
 static const uint8_t PF_4 = 18;    /* (pushbutton) */
 static const uint8_t PD_7 = 19;    /* PB7 */
 static const uint8_t PC_7 = 20;    /* PC7 */
-static const uint8_t PC_6 = 21;    /* LED_RED */
-static const uint8_t PC_5 = 22;    /* LED_GREEN */
-static const uint8_t PC_4 = 23;    /* LED_BLUE */
+//lights
+//static const uint8_t PC_6 = 21;    /* LED_RED */
+//static const uint8_t PC_5 = 22;    /* LED_GREEN */
+//static const uint8_t PC_4 = 23;    /* LED_BLUE */
+static const uint8_t PF_1 = 21;    /* LED_RED */
+static const uint8_t PF_3 = 22;    /* LED_GREEN */
+static const uint8_t PF_2 = 23;    /* LED_BLUE */
 static const uint8_t PA_0 = 24;    /* RX0 */
 static const uint8_t PA_1 = 25;    /* TX0 */
 static const uint8_t PA_2 = 26;    /* PA2 */
@@ -76,6 +80,7 @@ static const uint8_t PD_6 = 27;    /* battery_read_enable */
 static const uint8_t PB_5 = 28;    /* half_battery */
 static const uint8_t PA_6 = 29;    /* bt_control */
 static const uint8_t PA_7 = 30;    /* bt_reset */
+static const uint8_t PF_0 = 31;    /* SW2 (launchpad only) */
 // attoduino pin definition end
 
 // changed for attoduino
@@ -126,7 +131,7 @@ const uint32_t port_to_base[] = {
   (uint32_t) GPIO_PORTF_BASE
 };
 
-// changed for attoduino
+// changed for attoduino (hand coded)
 const uint8_t digital_pin_to_timer[] = {
   NOT_ON_TIMER, /* 0 */
   NOT_ON_TIMER, /* 1 */
@@ -149,16 +154,21 @@ const uint8_t digital_pin_to_timer[] = {
   T2A1, /* 18 PF_4 */
   WT5B, /* 19 PD_7 */
   WT1B, /* 20 PC_7 */
-  WT1A, /* 21 PC_6 */
-  WT0B, /* 22 PC_5 */
-  WT0A, /* 23 PC_4 */
+  // lights
+  //  WT1A, /* 21 PC_6 */
+  //  WT0B, /* 22 PC_5 */
+  //  WT0A, /* 23 PC_4 */
+  T0B1, /* 21 PF_1 */
+  T1B1, /* 22 PF_3 */
+  T1A1, /* 23 PF_2 */
   NOT_ON_TIMER, /* 24 */
   NOT_ON_TIMER, /* 25 */
   NOT_ON_TIMER, /* 26 PA_2 ... may actually be a timer for this ... */
   NOT_ON_TIMER, /* 27 */
   NOT_ON_TIMER, /* 28 */
   NOT_ON_TIMER, /* 29 */
-  NOT_ON_TIMER  /* 30 */
+  NOT_ON_TIMER, /* 30 */
+  NOT_ON_TIMER  /* 31 */
 };
 
 // changed for attoduino
@@ -184,9 +194,13 @@ const uint8_t digital_pin_to_port[]       = {
   PF,     // 18 - PF_4       (pushbutton)
   PD,     // 19 - PD_7       PB7
   PC,     // 20 - PC_7       PC7
-  PC,     // 21 - PC_6       LED_RED
-  PC,     // 22 - PC_5       LED_GREEN
-  PC,     // 23 - PC_4       LED_BLUE
+  // lights
+  //PC,     // 21 - PC_6       LED_RED
+  //PC,     // 22 - PC_5       LED_GREEN
+  //PC,     // 23 - PC_4       LED_BLUE
+  PF,     // 21 - PF_1       LED_RED
+  PF,     // 22 - PF_3       LED_GREEN
+  PF,     // 23 - PF_2       LED_BLUE
   PA,     // 24 - PA_0       RX0
   PA,     // 25 - PA_1       TX0
   PA,     // 26 - PA_2       PA2
@@ -194,6 +208,7 @@ const uint8_t digital_pin_to_port[]       = {
   PB,     // 28 - PB_5       half_battery
   PA,     // 29 - PA_6       bt_control
   PA,     // 30 - PA_7       bt_reset
+  PF      // 31 - PFS0       SW2
 };
 
 
@@ -220,9 +235,13 @@ const uint8_t digital_pin_to_bit_mask[]   = {
   BV(4),          // 18 - PF_4       (pushbutton)
   BV(7),          // 19 - PD_7       PB7
   BV(7),          // 20 - PC_7       PC7
-  BV(6),          // 21 - PC_6       LED_RED
-  BV(5),          // 22 - PC_5       LED_GREEN
-  BV(4),          // 23 - PC_4       LED_BLUE
+  // lights
+  //BV(6),          // 21 - PC_6       LED_RED
+  //BV(5),          // 22 - PC_5       LED_GREEN
+  //BV(4),          // 23 - PC_4       LED_BLUE
+  BV(1),          // 21 - PF_1       LED_RED
+  BV(3),          // 22 - PF_3       LED_GREEN
+  BV(2),          // 23 - PF_2       LED_BLUE
   BV(0),          // 24 - PA_0       RX0
   BV(1),          // 25 - PA_1       TX0
   BV(2),          // 26 - PA_2       PA2
@@ -230,8 +249,10 @@ const uint8_t digital_pin_to_bit_mask[]   = {
   BV(5),          // 28 - PB_5       half_battery
   BV(6),          // 29 - PA_6       bt_control
   BV(7),          // 30 - PA_7       bt_reset
+  BV(0),          // 31 - SW_0
 };
 
+// (unchanged)
 const uint32_t timer_to_offset[] = {
   TIMER0,
   TIMER0,
@@ -258,6 +279,7 @@ const uint32_t timer_to_offset[] = {
   WTIMER5,
 };
 
+// (unchanged)
 const uint8_t timer_to_ab[] = {
   TIMA,
   TIMA,
@@ -284,6 +306,7 @@ const uint8_t timer_to_ab[] = {
   TIMB,
 };
 
+// (unchanged)
 const uint32_t timer_to_pin_config[] = {
   GPIO_PB6_T0CCP0,
   GPIO_PF0_T0CCP0,
@@ -345,6 +368,7 @@ const uint32_t digital_pin_to_analog_in[] = {
   ADC_CTL_CH11,   // 28 - PB_5       half_battery
   NOT_ON_ADC,     // 29 - PA_6       bt_control
   NOT_ON_ADC,     // 30 - PA_7       bt_reset
+  NOT_ON_ADC,     // 31
 };
 
 #endif
